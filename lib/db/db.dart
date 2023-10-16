@@ -27,6 +27,8 @@ class DB {
     db = Realm(_config);
   }
 
+  static void closeDB() => db.close();
+
   static Future<String> getDBPath() async {
     Directory appDocumentsPath = await getApplicationDocumentsDirectory();
     path = join(appDocumentsPath.path, 'realm', name);
@@ -49,9 +51,7 @@ class DB {
   static update() {}
 
   /// 查
-  static List<T> queryAll<T extends RealmObject>() {
-    return db.all<T>().toList();
-  }
+  static List<T> queryAll<T extends RealmObject>() => db.all<T>().toList();
 
   /// 清空
   static void clear<T extends RealmObject>() => db.write(

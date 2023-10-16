@@ -38,6 +38,12 @@ class _FirstPageState extends State<FirstPage> {
     getTags();
   }
 
+  @override
+  void dispose() {
+    _tagNameController.dispose();
+    super.dispose();
+  }
+
   void addData() {
     var name = _tagNameController.value.text;
 
@@ -103,6 +109,7 @@ class _FirstPageState extends State<FirstPage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
+        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
         middle: const Text('标签管理'),
         trailing: GestureDetector(
           onTap: () {
@@ -192,23 +199,31 @@ class _FirstPageState extends State<FirstPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(tag.id.toString()),
-                                          Text(tag.name),
-                                          Text(tag.background),
-                                          Text(tag.createdAt
-                                              .toLocal()
-                                              .toString()),
-                                          Text(tag.updatedAt
-                                              .toLocal()
-                                              .toString()),
+                                          // Text(tag.id.toString()),
+                                          Text(
+                                            tag.name,
+                                            style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              decorationColor: Color(
+                                                  int.parse(tag.background)),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
-                                    CupertinoButton.filled(
-                                      child: const Text('删除'),
-                                      onPressed: () {
-                                        deleteTag(tag);
-                                      },
+                                    SizedBox(
+                                      width: 80,
+                                      height: 40,
+                                      child: CupertinoButton.filled(
+                                        padding: const EdgeInsets.all(0),
+                                        child: const Text('删除'),
+                                        onPressed: () {
+                                          deleteTag(tag);
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
