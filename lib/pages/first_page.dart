@@ -59,9 +59,9 @@ class _FirstPageState extends State<FirstPage> {
 
     DB.add<Tag>(tag);
 
-    // setState(() {
-    //   tagList.add(tag);
-    // });
+    setState(() {
+      tagList.add(tag);
+    });
 
     _tagNameController.clear();
   }
@@ -77,17 +77,17 @@ class _FirstPageState extends State<FirstPage> {
 
     print('tagList: $tagList');
 
-    addListListen(list);
+    // addListListen(list);
   }
 
-  void addListListen(RealmResults<Tag> result) {
-    var subscription =
-        result.changes.listen((RealmResultsChanges<Tag> changed) {
-      print('inserted: ${changed.inserted}');
-      print('deleted: ${changed.deleted}');
-      print('modified: ${changed.modified}');
-    });
-  }
+  // void addListListen(RealmResults<Tag> result) {
+  //   var subscription =
+  //       result.changes.listen((RealmResultsChanges<Tag> changed) {
+  //     print('inserted: ${changed.inserted}');
+  //     print('deleted: ${changed.deleted}');
+  //     print('modified: ${changed.modified}');
+  //   });
+  // }
 
   void deleteTag(Tag tag) {
     DB.delete(tag);
