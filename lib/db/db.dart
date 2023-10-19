@@ -1,8 +1,10 @@
 import 'dart:io';
-import 'package:flutter_demo_02/model/schemas.dart';
+
 import 'package:realm/realm.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+
+import 'package:flutter_demo_02/model/schemas.dart';
 
 class DB {
   /// Realm 数据库单例模式
@@ -27,6 +29,7 @@ class DB {
     db = Realm(_config);
   }
 
+  /// 关闭 db
   static void closeDB() => db.close();
 
   static Future<String> getDBPath() async {
@@ -51,7 +54,7 @@ class DB {
   static update() {}
 
   /// 查
-  static List<T> queryAll<T extends RealmObject>() => db.all<T>().toList();
+  static RealmResults<T> queryAll<T extends RealmObject>() => db.all<T>();
 
   /// 清空
   static void clear<T extends RealmObject>() => db.write(

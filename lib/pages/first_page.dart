@@ -49,10 +49,6 @@ class _FirstPageState extends State<FirstPage> {
 
     if (name.isEmpty) return;
 
-    print(_tagNameController.value.text);
-
-    print('${DB.db}');
-
     final tag = Tag(
       ObjectId(),
       name,
@@ -60,10 +56,6 @@ class _FirstPageState extends State<FirstPage> {
       DateTime.now().toUtc(),
       DateTime.now().toUtc(),
     );
-
-    setState(() {
-      tagList.add(tag);
-    });
 
     DB.add<Tag>(tag);
 
@@ -75,18 +67,26 @@ class _FirstPageState extends State<FirstPage> {
   }
 
   void getTags() async {
-    print('${DB.db}');
-    print('${DB.db.config}');
-    print(DB.name);
-    print(DB.path);
+    print('path: ${DB.path}');
 
-    final list = DB.queryAll<Tag>();
+    final RealmResults<Tag> list = DB.queryAll<Tag>();
 
     setState(() {
-      tagList = list;
+      tagList = list.toList();
     });
 
-    print('$tagList');
+    print('tagList: $tagList');
+
+    addListListen(list);
+  }
+
+  void addListListen(RealmResults<Tag> result) {
+    var subscription =
+        result.changes.listen((RealmResultsChanges<Tag> changed) {
+      print('inserted: ${changed.inserted}');
+      print('deleted: ${changed.deleted}');
+      print('modified: ${changed.modified}');
+    });
   }
 
   void deleteTag(Tag tag) {
